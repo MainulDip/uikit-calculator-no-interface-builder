@@ -19,7 +19,9 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         setupLayout()
     }
-    
+    var fontSize: CGFloat {
+        UIScreen.main.bounds.height > UIScreen.main.bounds.width ? 36 : 24
+    }
     private lazy var equationView: (container: UIView, textView: UITextView) = {
         let view = UIView()
         view.backgroundColor = .red
@@ -78,8 +80,6 @@ class ViewController: UIViewController {
         let uiButton = UIButton()
         uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
         uiButton.tintColor = .white
-//        uiButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-//        uiButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         return uiButton
     }()
     
@@ -87,8 +87,6 @@ class ViewController: UIViewController {
         let uiButton = UIButton()
         uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
         uiButton.tintColor = .white
-//        uiButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-//        uiButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         return uiButton
     }()
     
@@ -96,8 +94,6 @@ class ViewController: UIViewController {
         let uiButton = UIButton()
         uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
         uiButton.tintColor = .white
-//        uiButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-//        uiButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         return uiButton
     }()
     
@@ -105,8 +101,6 @@ class ViewController: UIViewController {
         let uiButton = UIButton()
         uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
         uiButton.tintColor = .white
-//        uiButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-//        uiButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         uiButton.backgroundColor = .yellow
         return uiButton
     }()
@@ -115,9 +109,6 @@ class ViewController: UIViewController {
         let uiButton = UIButton()
         uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
         uiButton.tintColor = .white
-//        uiButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-//        uiButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-//        uiButton.backgroundColor = .yellow
         return uiButton
     }()
     
@@ -164,9 +155,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("C", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -176,9 +164,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("()", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -188,9 +173,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("%", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -200,18 +182,29 @@ class ViewController: UIViewController {
         uiButton.setTitle("/", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
     
     private lazy var CalcBtnStack1: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [calcBtnC, calcBtnParen, calcBtnCPercent, calcBtnDevide])
+        
+        calcBtnC.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtnC.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtnParen.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtnParen.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtnCPercent.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtnCPercent.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtnDevide.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtnDevide.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
         stackView.axis = .horizontal
-//        stackView.spacing = 10
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        
         stackView.backgroundColor = .red
         
         return stackView
@@ -223,9 +216,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("7", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -235,9 +225,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("8", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -247,9 +234,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("9", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -259,18 +243,29 @@ class ViewController: UIViewController {
         uiButton.setTitle("X", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
     
     private lazy var CalcBtnStack2: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [calcBtn7, calcBtn8, calcBtn9, calcBtnMultiply])
+        
+        calcBtn7.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtn7.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtn8.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtn8.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtn9.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtn9.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtnMultiply.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtnMultiply.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
         stackView.axis = .horizontal
-//        stackView.spacing = 10
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        
         stackView.backgroundColor = .red
         
         return stackView
@@ -282,9 +277,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("4", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -294,9 +286,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("5", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -306,9 +295,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("6", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -318,18 +304,29 @@ class ViewController: UIViewController {
         uiButton.setTitle("-", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
     
     private lazy var CalcBtnStack3: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [calcBtn4, calcBtn5, calcBtn6, calcBtnMinus])
+        
+        calcBtn4.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtn4.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtn5.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtn5.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtn6.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtn6.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtnMinus.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtnMinus.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
         stackView.axis = .horizontal
-//        stackView.spacing = 10
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        
         stackView.backgroundColor = .red
         
         return stackView
@@ -341,9 +338,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("1", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -353,9 +347,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("2", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -365,9 +356,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("3", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -377,18 +365,28 @@ class ViewController: UIViewController {
         uiButton.setTitle("+", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
     
     private lazy var CalcBtnStack4: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [calcBtn1, calcBtn2, calcBtn3, calcBtnPlus])
+        
+        calcBtn1.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtn1.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtn2.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtn2.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtn3.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtn3.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtnPlus.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtnPlus.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
         stackView.axis = .horizontal
-//        stackView.spacing = 10
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
         stackView.backgroundColor = .red
         
         return stackView
@@ -400,9 +398,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("+/-", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -412,9 +407,6 @@ class ViewController: UIViewController {
         uiButton.setTitle("0", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -424,9 +416,6 @@ class ViewController: UIViewController {
         uiButton.setTitle(".", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
@@ -436,19 +425,31 @@ class ViewController: UIViewController {
         uiButton.setTitle("=", for: .normal)
         uiButton.setTitleColor(.orange, for: .normal)
         uiButton.titleLabel?.font = .systemFont(ofSize: 24)
-//        uiButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        uiButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        print(uiButton.layer.frame.width)
         uiButton.backgroundColor = .darkGray
         return uiButton
     }()
     
     private lazy var CalcBtnStack5: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [calcBtnPlusMinus, calcBtn0, calcBtnDot, calcBtnEqual])
+        
+        calcBtnPlusMinus.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtnPlusMinus.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtn0.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtn0.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtnDot.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtnDot.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
+        calcBtnEqual.widthAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        calcBtnEqual.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -16).isActive = true
+        
         stackView.axis = .horizontal
 //        stackView.spacing = 10
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
         stackView.backgroundColor = .red
+        
         
         return stackView
     }()
@@ -463,19 +464,18 @@ class ViewController: UIViewController {
         let VStackViewContainer = UIStackView(arrangedSubviews: [CalcBtnStack1, CalcBtnStack2, CalcBtnStack3, CalcBtnStack4, CalcBtnStack5])
         VStackViewContainer.axis = .vertical
         VStackViewContainer.distribution = .fillEqually
-        VStackViewContainer.spacing = 10
-        VStackViewContainer.backgroundColor = .black
+//        VStackViewContainer.spacing = 10
+        VStackViewContainer.backgroundColor = .orange
         
         view.addSubview(VStackViewContainer)
         VStackViewContainer.translatesAutoresizingMaskIntoConstraints = false
-//        VStackViewContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        VStackViewContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
         VStackViewContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         
         VStackViewContainer.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         VStackViewContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-//        VStackViewContainer.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor).isActive = true
-//        VStackViewContainer.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor).isActive = true
+        VStackViewContainer.layoutMargins = .init(top: 0, left: 8, bottom: 0, right: 8)
+        VStackViewContainer.isLayoutMarginsRelativeArrangement = true
         
         return view
     }()
@@ -485,8 +485,16 @@ class ViewController: UIViewController {
         equationViewHeightConstraint.constant = isLandscape ? size.height * 0.24 : size.height * 0.15
         preEquationViewHeightConstraint.constant = isLandscape ? size.height * 0.1 : size.height * 0.1
         controlsViewHeightConstraint.constant = isLandscape ? size.height * 0.1 : size.height * 0.1
-        view.layoutIfNeeded()
-//        setupLayout()
+        
+//        setFonts()
+        view.layoutIfNeeded() // deffered recomposition
+    }
+    
+    private func setFonts() {
+        [calcBtn0, calcBtn1, calcBtn2, calcBtn3, calcBtn4, calcBtn5, calcBtn6, calcBtn7].forEach { button in
+            let title = button.title(for: .normal) ?? ""
+            button.setAttributedTitle(.init(string: title, attributes: [.font: UIFont.systemFont(ofSize: fontSize)]), for: .normal)
+        }
     }
     
     private func setupLayout() {
