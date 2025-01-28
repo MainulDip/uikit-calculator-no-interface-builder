@@ -10,7 +10,6 @@ import UIKit
 class UIButtonRound: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
-        // implementing corner radius
         layer.cornerRadius = bounds.height / 2
         
     }
