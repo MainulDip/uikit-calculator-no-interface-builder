@@ -11,6 +11,10 @@ Git create a new branch and switch to current `git checkout -b my-branch` & `git
 - next learn more about `pulling from a specific branch` && more on this https://stackoverflow.com/questions/4924002/git-pulling-from-specific-branch
 - next merging and conflict resolution workflows
 
+Also on new pcs, ensure correct git global settings are there
+- `git config --list --global` to see all the global settings
+- `git config --global user.name <name>` and `git config --global user.email <email>` to set if not already
+
 ### Temp 
 
 ```swift
