@@ -10,3 +10,43 @@ Git create a new branch and switch to current `git checkout -b my-branch` & `git
 - `git checkout <existing-branch-name>` to select the current branch as working branch.
 - next learn more about `pulling from a specific branch` && more on this https://stackoverflow.com/questions/4924002/git-pulling-from-specific-branch
 - next merging and conflict resolution workflows
+
+### Temp 
+
+```swift
+ private lazy var dummyBtn: UIButton = {
+        let uiButton = UIButton()
+        uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+        uiButton.tintColor = .white
+        return uiButton
+    }()
+    
+    private lazy var dummyBtn2: UIButton = {
+        let uiButton = UIButton()
+        uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+        uiButton.tintColor = .white
+        return uiButton
+    }()
+    
+    private lazy var dummyBtn3: UIButton = {
+        let uiButton = UIButton()
+        uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+        uiButton.tintColor = .white
+        return uiButton
+    }()
+    
+    private lazy var dummyBtn4: UIButton = {
+        let uiButton = UIButton()
+        uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+        uiButton.tintColor = .white
+        uiButton.backgroundColor = .yellow
+        return uiButton
+    }()
+    
+    private lazy var dummyBtn5: UIButton = {
+        let uiButton = UIButton()
+        uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+        uiButton.tintColor = .white
+        return uiButton
+    }()
+```
