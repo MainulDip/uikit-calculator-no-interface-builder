@@ -20,29 +20,60 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         setupLayout()
     }
+    
     var fontSize: CGFloat {
-        UIScreen.main.bounds.height > UIScreen.main.bounds.width ? 36 : 24
+        UIScreen.main.bounds.height > UIScreen.main.bounds.width ? 24 : 16
     }
     
+    
+    // add btn color property, ["C", K.btnC.color]
     private let calcBtnValArr = [
         ["C", "()", "%", "/"],
         ["7", "8", "9", "X"],
         ["4", "5", "6", "-"],
         ["1", "2", "3", "4"],
-        ["+/-", "0", ".", "="]
+        ["+", "0", ".", "="]
     ]
     
-    private lazy var calcBtnGenerator: [UIButton] = {
-        var btns: [UIButton] = []
-        for row in calcBtnValArr {
-            for val in row {
-                let btn = UIButtonRound(type: .system)
-                btn.setTitle(val, for: .normal)
-                btn.titleLabel?.font = .systemFont(ofSize: fontSize)
+    // collect all those loop generated buttons to change widthContraints for landscape orientaion
+    private var calcBtnCollection : [UIButton] = []
+    private var calcBtnAnchorCollection : [(buttonWidthAnchor:NSLayoutConstraint, buttonHeightAnchor: NSLayoutConstraint)] = []
+    
+    private func clacBtnOrientationAdaptor(_ size: CGSize) -> Void {
+        for btn in calcBtnCollection {
+            btn.titleLabel?.font = .systemFont(ofSize: fontSize)
+        }
+        
+        let isLandscape = size.width > size.height
+        if isLandscape {
+            for calcBtnAnchor in calcBtnAnchorCollection {
+                calcBtnAnchor.buttonWidthAnchor.isActive = false
+                calcBtnAnchor.buttonWidthAnchor.priority = UILayoutPriority(rawValue: 999)
+                calcBtnAnchor.buttonHeightAnchor.isActive = false
+                calcBtnAnchor.buttonHeightAnchor.priority = UILayoutPriority(rawValue: 999)
+            }
+        } else if !isLandscape {
+            for calcBtnAnchor in calcBtnAnchorCollection {
+                calcBtnAnchor.buttonHeightAnchor.isActive = true
+                calcBtnAnchor.buttonHeightAnchor.priority = UILayoutPriority(rawValue: 999)
+                calcBtnAnchor.buttonWidthAnchor.isActive = true
+                calcBtnAnchor.buttonWidthAnchor.priority = UILayoutPriority(rawValue: 999)
             }
         }
-        return btns
-    }()
+    }
+    // add a function that will be called from viewWillTransition to change the btn's font size and width constrains
+    
+//    private lazy var calcBtnGenerator: [UIButton] = {
+//        var btns: [UIButton] = []
+//        for row in calcBtnValArr {
+//            for val in row {
+//                let btn = UIButtonRound(type: .system)
+//                btn.setTitle(val, for: .normal)
+//                btn.titleLabel?.font = .systemFont(ofSize: fontSize)
+//            }
+//        }
+//        return btns
+//    }()
     
     private func makeColumns()  -> UIStackView {
         //delete previous vertical stack
@@ -63,17 +94,27 @@ class ViewController: UIViewController {
                 let button = UIButtonRound()
                 button.setTitle(buttonTitle, for: .normal)
                 button.setTitleColor(.orange, for: .normal)
-                button.titleLabel?.font = .systemFont(ofSize: 24)
+                button.titleLabel?.font = .systemFont(ofSize: fontSize)
                 button.backgroundColor = .darkGray
                 //add button to row
                 horizontalStack.addArrangedSubview(button)
-                horizontalStack.axis = .horizontal
-                horizontalStack.distribution = .fillEqually
-                horizontalStack.alignment = .center
-                horizontalStack.spacing = 12
-                horizontalStack.backgroundColor = .red
+                let btnHeightAnchor = button.heightAnchor.constraint(equalTo: horizontalStack.heightAnchor, constant: -16)
+                btnHeightAnchor.isActive = true
+                // the height anchor is causing 3rd orientation changes console warning
+                let btnWidthAnchor: NSLayoutConstraint = button.widthAnchor.constraint(equalTo: horizontalStack.heightAnchor, constant: -16)
+                btnWidthAnchor.isActive = true
+                calcBtnAnchorCollection.append((buttonWidthAnchor: btnWidthAnchor, buttonHeightAnchor: btnHeightAnchor))
+                calcBtnCollection.append(button)
                 
+//                button.widthAnchor.constraint(equalTo: horizontalStack.heightAnchor, constant: -16).isActive = true
+//                button.heightAnchor.constraint(equalTo: horizontalStack.heightAnchor, constant: -16).isActive = true
             }
+            
+            horizontalStack.axis = .horizontal
+            horizontalStack.distribution = .equalCentering
+            horizontalStack.alignment = .center
+//            horizontalStack.spacing = 12
+            horizontalStack.backgroundColor = .red
             
             //Add row to vertical stack
             verticalStack.addArrangedSubview(horizontalStack)
@@ -135,6 +176,43 @@ class ViewController: UIViewController {
         return view
     }()
     
+    
+    private lazy var dummyBtn: UIButton = {
+            let uiButton = UIButton()
+            uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+            uiButton.tintColor = .white
+            return uiButton
+        }()
+        
+        private lazy var dummyBtn2: UIButton = {
+            let uiButton = UIButton()
+            uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+            uiButton.tintColor = .white
+            return uiButton
+        }()
+        
+        private lazy var dummyBtn3: UIButton = {
+            let uiButton = UIButton()
+            uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+            uiButton.tintColor = .white
+            return uiButton
+        }()
+        
+        private lazy var dummyBtn4: UIButton = {
+            let uiButton = UIButton()
+            uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+            uiButton.tintColor = .white
+            uiButton.backgroundColor = .yellow
+            return uiButton
+        }()
+        
+        private lazy var dummyBtn5: UIButton = {
+            let uiButton = UIButton()
+            uiButton.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+            uiButton.tintColor = .white
+            return uiButton
+        }()
+    
     private lazy var controlsView: UIView = {
         let view = UIView()
         view.backgroundColor = .brown
@@ -147,11 +225,11 @@ class ViewController: UIViewController {
         // add 3 button containing icons to the left
         // add 1 button containing icon to the right
         
-        let leftHStackBtnHolder = UIStackView(arrangedSubviews: [])
+        let leftHStackBtnHolder = UIStackView(arrangedSubviews: [dummyBtn, dummyBtn2, dummyBtn3])
         leftHStackBtnHolder.distribution = .equalSpacing
         leftHStackBtnHolder.backgroundColor = .orange
         
-        let rightHStackBtnHolder = UIStackView(arrangedSubviews: [])
+        let rightHStackBtnHolder = UIStackView(arrangedSubviews: [dummyBtn4])
         rightHStackBtnHolder.backgroundColor = .black
         rightHStackBtnHolder.alignment = .trailing
         rightHStackBtnHolder.axis = .vertical
@@ -206,6 +284,7 @@ class ViewController: UIViewController {
 //            })
 //        })
 //        setFonts()
+        clacBtnOrientationAdaptor(size)
         view.layoutIfNeeded() // deffered recomposition
     }
     
