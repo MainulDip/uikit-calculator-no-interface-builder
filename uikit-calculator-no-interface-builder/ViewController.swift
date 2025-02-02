@@ -21,8 +21,16 @@ class ViewController: UIViewController {
         setupLayout()
     }
     
+    var isLandscape: Bool {
+        self.view.bounds.width > self.view.bounds.height
+    }
+    
     var fontSize: CGFloat {
-        UIScreen.main.bounds.height > UIScreen.main.bounds.width ? 24 : 16
+        UIScreen.main.bounds.height > UIScreen.main.bounds.width ? 36 : 24
+    }
+    
+    var currentHStackDistribution: UIStackView.Distribution {
+        UIScreen.main.bounds.height > UIScreen.main.bounds.width ? .equalCentering : .fillEqually
     }
     
     
@@ -32,12 +40,13 @@ class ViewController: UIViewController {
         ["7", "8", "9", "X"],
         ["4", "5", "6", "-"],
         ["1", "2", "3", "4"],
-        ["+", "0", ".", "="]
+        ["+/-", "0", ".", "="]
     ]
     
     // collect all those loop generated buttons to change widthContraints for landscape orientaion
     private var calcBtnCollection : [UIButton] = []
     private var calcBtnAnchorCollection : [(buttonWidthAnchor:NSLayoutConstraint, buttonHeightAnchor: NSLayoutConstraint)] = []
+    private var clacBtnHStackCollection : [UIStackView] = []
     
     private func clacBtnOrientationAdaptor(_ size: CGSize) -> Void {
         for btn in calcBtnCollection {
@@ -47,17 +56,22 @@ class ViewController: UIViewController {
         let isLandscape = size.width > size.height
         if isLandscape {
             for calcBtnAnchor in calcBtnAnchorCollection {
-                calcBtnAnchor.buttonWidthAnchor.isActive = false
-                calcBtnAnchor.buttonWidthAnchor.priority = UILayoutPriority(rawValue: 999)
-                calcBtnAnchor.buttonHeightAnchor.isActive = false
-                calcBtnAnchor.buttonHeightAnchor.priority = UILayoutPriority(rawValue: 999)
+//                calcBtnAnchor.buttonWidthAnchor.isActive = false
+//                calcBtnAnchor.buttonHeightAnchor.isActive = false
+            }
+            // adjust HStack
+            for calcBtnHStack in clacBtnHStackCollection {
+                calcBtnHStack.distribution = currentHStackDistribution
+//                calcBtnHStack.spacing = 100
             }
         } else if !isLandscape {
             for calcBtnAnchor in calcBtnAnchorCollection {
                 calcBtnAnchor.buttonHeightAnchor.isActive = true
-                calcBtnAnchor.buttonHeightAnchor.priority = UILayoutPriority(rawValue: 999)
                 calcBtnAnchor.buttonWidthAnchor.isActive = true
-                calcBtnAnchor.buttonWidthAnchor.priority = UILayoutPriority(rawValue: 999)
+            }
+            for calcBtnHStack in clacBtnHStackCollection {
+                calcBtnHStack.distribution = currentHStackDistribution
+//                calcBtnHStack.spacing = 0
             }
         }
     }
@@ -82,7 +96,7 @@ class ViewController: UIViewController {
         let verticalStack = UIStackView()
         verticalStack.axis = .vertical
         verticalStack.distribution = .fillEqually
-//        VStackViewContainer.spacing = 10
+        verticalStack.spacing = 10
         verticalStack.backgroundColor = .orange
         
         for row in calcBtnValArr {
@@ -98,11 +112,13 @@ class ViewController: UIViewController {
                 button.backgroundColor = .darkGray
                 //add button to row
                 horizontalStack.addArrangedSubview(button)
-                let btnHeightAnchor = button.heightAnchor.constraint(equalTo: horizontalStack.heightAnchor, constant: -16)
-                btnHeightAnchor.isActive = true
-                // the height anchor is causing 3rd orientation changes console warning
-                let btnWidthAnchor: NSLayoutConstraint = button.widthAnchor.constraint(equalTo: horizontalStack.heightAnchor, constant: -16)
-                btnWidthAnchor.isActive = true
+                let btnHeightAnchor = button.heightAnchor.constraint(equalTo: horizontalStack.heightAnchor, constant: 0)
+                btnHeightAnchor.priority = UILayoutPriority(rawValue: 999)
+                btnHeightAnchor.isActive = !isLandscape
+                
+                let btnWidthAnchor: NSLayoutConstraint = button.widthAnchor.constraint(equalTo: horizontalStack.heightAnchor, constant: 0)
+                btnWidthAnchor.priority = UILayoutPriority(rawValue: 999)
+                btnWidthAnchor.isActive = !isLandscape
                 calcBtnAnchorCollection.append((buttonWidthAnchor: btnWidthAnchor, buttonHeightAnchor: btnHeightAnchor))
                 calcBtnCollection.append(button)
                 
@@ -111,10 +127,15 @@ class ViewController: UIViewController {
             }
             
             horizontalStack.axis = .horizontal
-            horizontalStack.distribution = .equalCentering
+            horizontalStack.distribution = currentHStackDistribution
+            // horizontalStack.distribution = .equalCentering
+            // .fillEqually for landscape orientation
             horizontalStack.alignment = .center
-//            horizontalStack.spacing = 12
+            horizontalStack.spacing = 12
             horizontalStack.backgroundColor = .red
+            
+            // popuate clacBtnHStackCollection to fine tune on orientaiton change
+            clacBtnHStackCollection.append(horizontalStack)
             
             //Add row to vertical stack
             verticalStack.addArrangedSubview(horizontalStack)
@@ -125,8 +146,8 @@ class ViewController: UIViewController {
     private lazy var equationView: (container: UIView, textView: UITextView) = {
         let view = UIView()
         view.backgroundColor = .red
-        let isLandscape = self.view.frame.width > self.view.frame.height
-        self.equationViewHeightConstraint = view.heightAnchor.constraint(equalToConstant:  self.view.frame.height * 0.15)
+        // let isLandscape = self.view.frame.width > self.view.frame.height
+        self.equationViewHeightConstraint = view.heightAnchor.constraint(equalToConstant:  self.view.frame.height * (isLandscape ? 0.24 : 0.15))
         equationViewHeightConstraint.isActive = true
         
         // inner UITextView setup
@@ -153,7 +174,7 @@ class ViewController: UIViewController {
         view.setContentHuggingPriority(.required, for: .horizontal)
         view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.backgroundColor = .lightGray
-        self.preEquationViewHeightConstraint =  view.heightAnchor.constraint(equalToConstant: self.view.frame.height * 0.09)
+        self.preEquationViewHeightConstraint =  view.heightAnchor.constraint(equalToConstant: self.view.frame.height * 0.10)
         self.preEquationViewHeightConstraint.isActive = true
         
         // inner UITextView setup
@@ -216,7 +237,7 @@ class ViewController: UIViewController {
     private lazy var controlsView: UIView = {
         let view = UIView()
         view.backgroundColor = .brown
-        self.controlsViewHeightConstraint = view.heightAnchor.constraint(equalToConstant: self.view.frame.height * 0.09)
+        self.controlsViewHeightConstraint = view.heightAnchor.constraint(equalToConstant: self.view.frame.height * 0.10)
         self.controlsViewHeightConstraint.isActive = true
         
         
