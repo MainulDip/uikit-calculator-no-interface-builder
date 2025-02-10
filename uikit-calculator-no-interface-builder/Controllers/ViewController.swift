@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         UIScreen.main.bounds.height > UIScreen.main.bounds.width ? .equalCentering : .fillEqually
     }
     
-    
+    var viewModel = ViewModel()
     // add btn color property, ["C", K.btnC.color]
     private let calcBtnValArr = [
         ["C", "()", "%", "/"],
@@ -110,6 +110,7 @@ class ViewController: UIViewController {
                 button.setTitleColor(.orange, for: .normal)
                 button.titleLabel?.font = .systemFont(ofSize: fontSize)
                 button.backgroundColor = .darkGray
+                button.addTarget(self, action: #selector(ViewController.didSelectCalcButton(_:)), for: .touchUpInside)
                 //add button to row
                 horizontalStack.addArrangedSubview(button)
                 let btnHeightAnchor = button.heightAnchor.constraint(equalTo: horizontalStack.heightAnchor, constant: 0)
@@ -141,6 +142,16 @@ class ViewController: UIViewController {
             verticalStack.addArrangedSubview(horizontalStack)
         }
         return verticalStack
+    }
+    private func stateCallBack(_ state: ViewModelState) {
+        //look at the new state and update the ui
+        
+        let equation = state.equation
+        equationView.textView.text = equation
+    }
+    
+    @objc func didSelectCalcButton(_ sender: UIButton) {
+        viewModel.didSelectButton(type: sender.title(for: .normal) ?? "", callBack : stateCallBack)
     }
     
     private lazy var equationView: (container: UIView, textView: UITextView) = {
