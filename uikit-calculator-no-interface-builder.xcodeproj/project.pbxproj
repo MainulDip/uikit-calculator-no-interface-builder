@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		720183D92D7510200020A8C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7228D61A2D3C8A31006686C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7228D6212D3C8A31006686C1;
+			remoteInfo = "uikit-calculator-no-interface-builder";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		720183D52D7510200020A8C9 /* uikit-calculator-no-interface-builderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "uikit-calculator-no-interface-builderTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7228D6222D3C8A31006686C1 /* uikit-calculator-no-interface-builder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "uikit-calculator-no-interface-builder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -21,6 +32,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		720183D62D7510200020A8C9 /* uikit-calculator-no-interface-builderTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "uikit-calculator-no-interface-builderTests";
+			sourceTree = "<group>";
+		};
 		7228D6242D3C8A31006686C1 /* uikit-calculator-no-interface-builder */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -32,6 +48,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		720183D22D7510200020A8C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7228D61F2D3C8A31006686C1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -46,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				7228D6242D3C8A31006686C1 /* uikit-calculator-no-interface-builder */,
+				720183D62D7510200020A8C9 /* uikit-calculator-no-interface-builderTests */,
 				7228D6232D3C8A31006686C1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				7228D6222D3C8A31006686C1 /* uikit-calculator-no-interface-builder.app */,
+				720183D52D7510200020A8C9 /* uikit-calculator-no-interface-builderTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +86,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		720183D42D7510200020A8C9 /* uikit-calculator-no-interface-builderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 720183DB2D7510200020A8C9 /* Build configuration list for PBXNativeTarget "uikit-calculator-no-interface-builderTests" */;
+			buildPhases = (
+				720183D12D7510200020A8C9 /* Sources */,
+				720183D22D7510200020A8C9 /* Frameworks */,
+				720183D32D7510200020A8C9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				720183DA2D7510200020A8C9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				720183D62D7510200020A8C9 /* uikit-calculator-no-interface-builderTests */,
+			);
+			name = "uikit-calculator-no-interface-builderTests";
+			packageProductDependencies = (
+			);
+			productName = "uikit-calculator-no-interface-builderTests";
+			productReference = 720183D52D7510200020A8C9 /* uikit-calculator-no-interface-builderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		7228D6212D3C8A31006686C1 /* uikit-calculator-no-interface-builder */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7228D6352D3C8A32006686C1 /* Build configuration list for PBXNativeTarget "uikit-calculator-no-interface-builder" */;
@@ -93,6 +141,10 @@
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					720183D42D7510200020A8C9 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 7228D6212D3C8A31006686C1;
+					};
 					7228D6212D3C8A31006686C1 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -113,11 +165,19 @@
 			projectRoot = "";
 			targets = (
 				7228D6212D3C8A31006686C1 /* uikit-calculator-no-interface-builder */,
+				720183D42D7510200020A8C9 /* uikit-calculator-no-interface-builderTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		720183D32D7510200020A8C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7228D6202D3C8A31006686C1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +188,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		720183D12D7510200020A8C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7228D61E2D3C8A31006686C1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +204,49 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		720183DA2D7510200020A8C9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7228D6212D3C8A31006686C1 /* uikit-calculator-no-interface-builder */;
+			targetProxy = 720183D92D7510200020A8C9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		720183DC2D7510200020A8C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.websolverpro.uikit-calculator-no-interface-builderTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/uikit-calculator-no-interface-builder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/uikit-calculator-no-interface-builder";
+			};
+			name = Debug;
+		};
+		720183DD2D7510200020A8C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.websolverpro.uikit-calculator-no-interface-builderTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/uikit-calculator-no-interface-builder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/uikit-calculator-no-interface-builder";
+			};
+			name = Release;
+		};
 		7228D6362D3C8A32006686C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -314,6 +423,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		720183DB2D7510200020A8C9 /* Build configuration list for PBXNativeTarget "uikit-calculator-no-interface-builderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				720183DC2D7510200020A8C9 /* Debug */,
+				720183DD2D7510200020A8C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7228D61D2D3C8A31006686C1 /* Build configuration list for PBXProject "uikit-calculator-no-interface-builder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
