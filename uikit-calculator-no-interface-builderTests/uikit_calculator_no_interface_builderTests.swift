@@ -10,6 +10,13 @@ import uikit_calculator_no_interface_builder
 
 struct uikit_calculator_no_interface_builderTests {
     
+    var i = 0
+    
+    init() {
+        print("Bismillah form init and counter \(i)")
+        i += 1
+    }
+    
     func calculate(equation: String) -> String {
         
         
@@ -62,6 +69,14 @@ struct uikit_calculator_no_interface_builderTests {
         #expect(opIndex == 1)
         #expect(opLhsNum == 1)
         #expect(opRhsNum == 1234.1234)
+    }
+    
+    @Test func testRecursiveComputation() {
+        let equation = "0-4.0024/2x4/2+2+2-7"
+        let actualRes = 0 - 4.0024 / 2 * 4 / 2 + 2 + 2 - 7
+        let computedRes = compRecursive(equation: equation)
+        print("result of \(equation) is \(computedRes) and actual result is \(actualRes)")
+        #expect(actualRes == computedRes)
     }
     
     
@@ -183,10 +198,12 @@ extension uikit_calculator_no_interface_builderTests {
     func basicCom(type: String, lhs: Float, rhs: Float) -> Float {
         switch type {
         case "+":
+            print("from switch + \(lhs) + \(rhs) = \(lhs + rhs)")
             return lhs + rhs
         case "-":
             return lhs - rhs
         case "x":
+            print("from switch x \(lhs) * \(rhs) = \(lhs * rhs)")
             return lhs * rhs
         case "/":
             return lhs / rhs
@@ -194,6 +211,25 @@ extension uikit_calculator_no_interface_builderTests {
             return 0.0
         }
     }
+    
+    func basicComD(type: String, lhs: Double, rhs: Double) -> Double {
+        switch type {
+        case "+":
+            print("from switch + \(lhs) + \(rhs) = \(lhs + rhs)")
+            return lhs + rhs
+        case "-":
+            print("from switch - \(lhs) - \(rhs) = \(lhs - rhs)")
+            return lhs - rhs
+        case "x":
+            print("from switch x \(lhs) * \(rhs) = \(lhs * rhs)")
+            return lhs * rhs
+        case "/":
+            return lhs / rhs
+        default:
+            return 0.0
+        }
+    }
+    
     
     // Human approach
     func opHolderToSequentialCom(equation: String) {
@@ -223,7 +259,7 @@ extension uikit_calculator_no_interface_builderTests {
     /* Recursive function building
      - [[1], [+], [2], [+], [3]]
      - [[1],[+],[2],[/],[3]]
-     - 4.0024 / 2 * 4 / 2 + 2 * 2 - 7 = rearrange = 
+     - 4.0024 / 2 * 4 / 2 + 2 * 2 - 7 = rearrange =
      */
     
     func compRecursive(eqArr: [(type: String, lhs: Float, rhs: Float)]) -> Float {
@@ -231,7 +267,67 @@ extension uikit_calculator_no_interface_builderTests {
             return basicCom(type: eqArr[0].type, lhs: eqArr[0].lhs, rhs: eqArr[0].rhs)
         }
         
+        // split the array in lhs and rhs based on `+` and `-` first
+        // when there are no `+` and `-` available for spliting, proceed
+        // with `/` and `*`
+        
         return basicCom(type: eqArr[0].type, lhs: compRecursive(eqArr: Array(eqArr[1...])), rhs: compRecursive(eqArr: Array(eqArr[1...])))
+    }
+    
+    // Active
+    // TODO: Convert Double to Decimal to tackle decimal precission issues
+    func compRecursive(equation: String) -> Double {
+        let eqArr = Array(equation)
+        
+    
+        
+        // base case :
+        // if lhsArray.count == 1 or rhsArray.count == 1
+        // convert the string to Float and return it
+        /// if the provided string doesn't contain then its an number only
+        if !equation.contains(/\/|x|\+|\-/) {
+            return Double(equation)!
+        }
+        
+        // split the array in lhs and rhs based on `+` and `-` first
+        // when there are no `+` and `-` available for spliting, proceed
+        // with `/` and `*`
+        
+        var type: String = ""
+        var lhs: String = ""
+        var rhs: String = ""
+        var split: [String.SubSequence] = []
+        
+        if equation.contains(/\+/) {
+            split = equation.split(separator: /\+/, maxSplits: 1, omittingEmptySubsequences: false)
+            type = "+"
+//            lhs = String(split[0])
+//            rhs = String(split[1])
+            print("type = \(type), lhs = \(lhs), rhs = \(rhs)")
+        } else if equation.contains(/\-/) {
+            split = equation.split(separator: /\-/, maxSplits: 1, omittingEmptySubsequences: false)
+            type = "-"
+//            lhs = String(split[0])
+//            rhs = String(split[1])
+            print("type = \(type), lhs = \(lhs), rhs = \(rhs)")
+        } else if equation.contains(/x/) {
+            split = equation.split(separator: /x/, maxSplits: 1, omittingEmptySubsequences: false)
+            type = "x"
+//            lhs = String(split[0])
+//            rhs = String(split[1])
+            print("type = \(type), lhs = \(lhs), rhs = \(rhs)")
+        } else if equation.contains(/\//) {
+            split = equation.split(separator: /\//, maxSplits: 1, omittingEmptySubsequences: false)
+            type = "/"
+//            lhs = String(split[0])
+//            rhs = String(split[1])
+            print("type = \(type), lhs = \(lhs), rhs = \(rhs)")
+        }
+        
+        lhs = String(split[0])
+        rhs = String(split[1])
+        
+        return basicComD(type: type, lhs: compRecursive(equation: lhs), rhs: compRecursive(equation: rhs))
     }
     
 }
@@ -261,6 +357,24 @@ extension uikit_calculator_no_interface_builderTests {
  2. division first and build `carringResult` as "2.0012 * 2 + 2 + 2 - 7"
  3. multiplication second and build `carringResult` as "4.0024 + 2 + 2 - 7"
  */
+
+enum EqOperatorRawVal: String {
+    case add        = "+"
+    case subtract   = "-"
+    case multiply   = "x"
+    case divide     = "/"
+}
+
+func getOpRegex(type: EqOperatorRawVal) -> Regex<Substring> {
+    return switch type {
+    case .add       : /\+/
+    case .subtract  : /\-/
+    case .multiply  : /x/
+    case .divide    : /\//
+    }
+}
+
+let sth = /\+/
 
 enum Operand {
     case add, subtract, multiply, divide
