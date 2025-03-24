@@ -7,6 +7,7 @@
 
 import Testing
 import uikit_calculator_no_interface_builder
+import Foundation
 
 struct uikit_calculator_no_interface_builderTests {
     
@@ -77,6 +78,20 @@ struct uikit_calculator_no_interface_builderTests {
         let computedRes = compRecursive(equation: equation)
         print("result of \(equation) is \(computedRes) and actual result is \(actualRes)")
         #expect(actualRes == computedRes)
+    }
+    
+    @Test func decimalPrecisionTest() {
+        let numS1 = "4.0024"
+        let numS2 = "2"
+        let substractionT = Decimal(string: numS1)! - Decimal(string: numS2)!
+        do {
+            let funcRes = try calculateFromString(equation: "\(numS1)-\(numS2)")
+            #expect(funcRes == substractionT)
+        } catch {
+            print(error)
+        }
+        
+        
     }
     
     
@@ -279,7 +294,7 @@ extension uikit_calculator_no_interface_builderTests {
     func compRecursive(equation: String) -> Double {
         let eqArr = Array(equation)
         
-    
+        
         
         // base case :
         // if lhsArray.count == 1 or rhsArray.count == 1
@@ -301,26 +316,26 @@ extension uikit_calculator_no_interface_builderTests {
         if equation.contains(/\+/) {
             split = equation.split(separator: /\+/, maxSplits: 1, omittingEmptySubsequences: false)
             type = "+"
-//            lhs = String(split[0])
-//            rhs = String(split[1])
+            //            lhs = String(split[0])
+            //            rhs = String(split[1])
             print("type = \(type), lhs = \(lhs), rhs = \(rhs)")
         } else if equation.contains(/\-/) {
             split = equation.split(separator: /\-/, maxSplits: 1, omittingEmptySubsequences: false)
             type = "-"
-//            lhs = String(split[0])
-//            rhs = String(split[1])
+            //            lhs = String(split[0])
+            //            rhs = String(split[1])
             print("type = \(type), lhs = \(lhs), rhs = \(rhs)")
         } else if equation.contains(/x/) {
             split = equation.split(separator: /x/, maxSplits: 1, omittingEmptySubsequences: false)
             type = "x"
-//            lhs = String(split[0])
-//            rhs = String(split[1])
+            //            lhs = String(split[0])
+            //            rhs = String(split[1])
             print("type = \(type), lhs = \(lhs), rhs = \(rhs)")
         } else if equation.contains(/\//) {
             split = equation.split(separator: /\//, maxSplits: 1, omittingEmptySubsequences: false)
             type = "/"
-//            lhs = String(split[0])
-//            rhs = String(split[1])
+            //            lhs = String(split[0])
+            //            rhs = String(split[1])
             print("type = \(type), lhs = \(lhs), rhs = \(rhs)")
         }
         
@@ -328,6 +343,55 @@ extension uikit_calculator_no_interface_builderTests {
         rhs = String(split[1])
         
         return basicComD(type: type, lhs: compRecursive(equation: lhs), rhs: compRecursive(equation: rhs))
+    }
+    
+    /*
+     
+     * Final Equation Compilation and Computation
+     
+     */
+    
+    func compute(type: EqOperator, lhs: Decimal, rhs: Decimal) -> Decimal {
+        switch type {
+            
+        case .add:
+            print("from switch + \(lhs) + \(rhs) = \(lhs + rhs)")
+            return lhs + rhs
+        case .subtract:
+            print("from switch - \(lhs) - \(rhs) = \(lhs - rhs)")
+            return lhs - rhs
+        case .multiply:
+            print("from switch x \(lhs) * \(rhs) = \(lhs * rhs)")
+            return lhs * rhs
+        case .divide:
+            return lhs / rhs
+        }
+    }
+    
+    func calculateFromString(equation: String) throws -> Decimal {
+        if !equation.contains(EqOperator.allowedOps) {
+            return Decimal(string: equation)!
+        }
+        
+        var type: EqOperator?
+        
+        if equation.contains(EqOperator.add.rawValue) {
+            type = EqOperator.add
+        } else if equation.contains(EqOperator.subtract.rawValue) {
+            type = EqOperator.subtract
+        } else if equation.contains(EqOperator.multiply.rawValue) {
+            type = EqOperator.multiply
+        } else if equation.contains(EqOperator.divide.rawValue) {
+            type = EqOperator.divide
+        }
+        
+        guard let type = type else { fatalError("Something went wrong into the computation function") }
+        
+        let split = equation.split(separator: type.rawValue, maxSplits: 1, omittingEmptySubsequences: false)
+        let lhs = String(split[0])
+        let rhs = String(split[1])
+        
+        return compute(type: type, lhs: try calculateFromString(equation: lhs), rhs: try calculateFromString(equation: rhs))
     }
     
 }
@@ -358,21 +422,24 @@ extension uikit_calculator_no_interface_builderTests {
  3. multiplication second and build `carringResult` as "4.0024 + 2 + 2 - 7"
  */
 
-enum EqOperatorRawVal: String {
+enum EqOperator: String, CaseIterable {
     case add        = "+"
     case subtract   = "-"
     case multiply   = "x"
     case divide     = "/"
+    
+    func getRegex(type: EqOperator) -> Regex<Substring> {
+        return switch type {
+        case .add       : /\+/
+        case .subtract  : /\-/
+        case .multiply  : /x/
+        case .divide    : /\//
+        }
+    }
+    
+    static let allowedOps = /\/|x|\+|\-/
 }
 
-func getOpRegex(type: EqOperatorRawVal) -> Regex<Substring> {
-    return switch type {
-    case .add       : /\+/
-    case .subtract  : /\-/
-    case .multiply  : /x/
-    case .divide    : /\//
-    }
-}
 
 let sth = /\+/
 

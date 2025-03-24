@@ -39,38 +39,16 @@ class ViewModel {
     
     func didSelectButton(type: String, callBack: @escaping (ViewModelState) -> Void) {
         switch type {
-            //        case "C", "()", "%", "/":
-            //            //Update equation based on input
-            //            state.equation = "Hello world"
-            //            break
-            //        case "7", "8", "9", "X":
-            //            //Update equation based on input
-            //            state.equation = "Hello world"
-            //            break
-            //        case "4", "5", "6", "-":
-            //            //Update equation based on input
-            //            state.equation = "Hello world"
-            //            break
-            //        case "1", "2", "3", "4":
-            //            //Update equation based on input
-            //            state.equation = "Hello world"
-            //            break
-            //
-            //        case "+/-", "0", ".", "=":
-            //            //Update equation based on input
-            //            state.equation = "Hello world"
-            //            break
         case "C":
             state.equation = ""
+            state.result = ""
             break
-            
-            // Normal equation for now, later add some more
         case "+","-","X","/":
             // TODO: if last input was also any of these, replace that with new one
 //            let sanitizedInput = sanitizeInput(type, currentEqState: state.equation)
 //            state.equation = state.equation + type.lowercased()
             state.equation = sanitizeOperator(type, currentEqState: state.equation)
-            computeEquation()
+//            computeEquation()
             break
             
         case "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".":
@@ -80,7 +58,7 @@ class ViewModel {
             // do it like `state.equation = sanitizedInput(type)`
 //            state.equation = state.equation + type
             state.equation = sanitizeInput(type, currentEqState: state.equation)
-            computeEquation()
+             computeEquation()
             
             break
             
@@ -118,7 +96,7 @@ class ViewModel {
     
     private func updateEquation(value: String) -> String {
         // convert the equation into an array
-        // or just contatinate
+        // or just concatinate
         
         return ""
     }
@@ -150,8 +128,14 @@ class ViewModel {
          - if equation has an operator follewed by an Int/Float
          */
         
-        let resF = Float.random(in: 0...1000)
-        state.result = String(resF)
+        do {
+            let resF = try calculateFromString(equation: state.equation)
+            state.result = "\(resF)"
+        } catch {
+            print(error)
+        }
+        
+        
         
         
         //        var build = addFn(1,1)
@@ -233,6 +217,53 @@ extension ViewModel {
         }
         
         return tempEqState
+    }
+}
+
+// MARK: Final Claculation Function
+
+extension ViewModel {
+    func compute(type: EqOperator, lhs: Decimal, rhs: Decimal) -> Decimal {
+        switch type {
+            
+        case .add:
+            print("from switch + \(lhs) + \(rhs) = \(lhs + rhs)")
+            return lhs + rhs
+        case .subtract:
+            print("from switch - \(lhs) - \(rhs) = \(lhs - rhs)")
+            return lhs - rhs
+        case .multiply:
+            print("from switch x \(lhs) * \(rhs) = \(lhs * rhs)")
+            return lhs * rhs
+        case .divide:
+            return lhs / rhs
+        }
+    }
+    
+    func calculateFromString(equation: String) throws -> Decimal {
+        if !equation.contains(EqOperator.allowedOps) {
+            return Decimal(string: equation)!
+        }
+        
+        var type: EqOperator?
+        
+        if equation.contains(EqOperator.add.rawValue) {
+            type = EqOperator.add
+        } else if equation.contains(EqOperator.subtract.rawValue) {
+            type = EqOperator.subtract
+        } else if equation.contains(EqOperator.multiply.rawValue) {
+            type = EqOperator.multiply
+        } else if equation.contains(EqOperator.divide.rawValue) {
+            type = EqOperator.divide
+        }
+        
+        guard let type = type else { fatalError("Something went wrong into the computation function") }
+        
+        let split = equation.split(separator: type.rawValue, maxSplits: 1, omittingEmptySubsequences: false)
+        let lhs = String(split[0])
+        let rhs = String(split[1])
+        
+        return compute(type: type, lhs: try calculateFromString(equation: lhs), rhs: try calculateFromString(equation: rhs))
     }
 }
 

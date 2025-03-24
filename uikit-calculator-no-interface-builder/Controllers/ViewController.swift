@@ -505,6 +505,7 @@ extension ViewController {
         let newRowData: (String, String) = ("NewRow First", "NewRow Last")
         historyTableVC.historyData.append(newRowData)
         historyTableVC.tableView.reloadData()
+        historyTableVC.scrollToLast()
     }
     
     // TODO: - Implement the `Left Deletion` of equationview | callback of the `letDelete` button
